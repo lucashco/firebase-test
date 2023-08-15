@@ -136,7 +136,7 @@ export function DashboardScreen() {
           data={tasks}
           keyExtractor={item => item.id}
           renderItem={_renderItem}
-          contentContainerStyle={task.length === 0 ? styles.listContainer : {}}
+          contentContainerStyle={tasks.length === 0 ? styles.listContainer : {}}
           ListEmptyComponent={<TaskEmpty loading={isLoading} />}
         />
       </View>
