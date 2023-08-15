@@ -1,14 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {LoginScreen} from './src/screens/LoginScreen';
 import {DashboardScreen} from './src/screens/DashboardScreen';
 
-export function App() {
-  const [isLogged, setIsLogged] = useState(false);
+import auth from '@react-native-firebase/auth';
 
-  useEffect(() => {
-    console.log('oi');
+export function App() {
+  const [user, setUser] = useState(null);
+
+  const onAuthStateChanged = useCallback((user: any) => {
+    setUser(user);
   }, []);
 
-  return isLogged ? <DashboardScreen /> : <LoginScreen />;
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, [onAuthStateChanged]);
+
+  return user ? <DashboardScreen /> : <LoginScreen />;
 }
